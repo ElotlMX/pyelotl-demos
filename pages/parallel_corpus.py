@@ -28,3 +28,15 @@ elif corpus == "tsunkua":
 
 
 st.dataframe(df, hide_index=True)
+
+st.subheader(f"Estadísticas de {corpus.title()}")
+
+col1, col2 = st.columns([1, 3])
+with col1:
+    st.metric("Líneas ", len(df))
+    st.metric("Documentos :book:", len(df["doc"].unique()))
+    st.metric("Variantes", len(df["variant"].unique()))
+
+with col2:
+    st.dataframe(df.groupby(by="doc")["variant"].count())
+    st.dataframe(df.groupby(by="variant")["doc"].count())
