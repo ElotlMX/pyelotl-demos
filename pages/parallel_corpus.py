@@ -33,14 +33,23 @@ with content:
 
     col1, col2 = st.columns(2)
     with col1:
+        st.subheader("Documentos")
         df["doc"] = df["doc"].replace("", "Sin documento")
         docs = df.groupby(by="doc")["doc"].count()
-        st.table(docs.sort_values(ascending=False))
+        docs.sort_values(ascending=False, inplace=True)
+        docs_str = ""
+        for doc in docs.keys():
+            docs_str += f"- {docs[doc]} :: {doc}\n"
+        st.code(docs_str)
 
     with col2:
+        st.subheader("Variantes")
         df["variant"] = df["variant"].replace("", "Sin variante")
         variants = df.groupby(by="variant")["doc"].count()
-        st.table(variants.sort_values(ascending=False))
+        st.dataframe(
+            variants.sort_values(ascending=False),
+            column_config={"variant": "Variante", "doc": "#"},
+        )
 
 with menu:
     st.page_link("app.py", label="Chante", icon="🏠")
