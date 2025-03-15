@@ -33,18 +33,20 @@ with content:
 
     col1, col2 = st.columns(2)
     with col1:
-        st.dataframe(df.groupby(by="doc")["doc"].count())
+        df["doc"] = df["doc"].replace("", "Sin documento")
+        docs = df.groupby(by="doc")["doc"].count()
+        st.table(docs.sort_values(ascending=False))
 
     with col2:
-        st.dataframe(df.groupby(by="variant")["doc"].count())
+        df["variant"] = df["variant"].replace("", "Sin variante")
+        variants = df.groupby(by="variant")["doc"].count()
+        st.table(variants.sort_values(ascending=False))
 
 with menu:
-    st.subheader("Características:")
     st.page_link("app.py", label="Chante", icon="🏠")
     st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
     st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
     st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
-    st.divider()
 
     st.subheader(f"Estadísticas de {corpus.title()}")
     st.metric("Líneas 📊", len(df))

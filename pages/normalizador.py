@@ -11,7 +11,6 @@ LANGS = {"Otomi": OTOMI_NORMS, "Nahuatl": NAHUATL_NORMS}
 menu, content = st.columns([0.2, 0.8])
 
 with menu:
-    st.subheader("Características:")
     st.page_link("app.py", label="Chante", icon="🏠")
     st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
     st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")

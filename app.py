@@ -5,7 +5,7 @@ st.set_page_config(
     page_icon="🌍",
     menu_items={
         "About": """
-        ### Comunidad de Elotl
+        ### Comunidad de Elotl :corn:
         https://elotl.mx
         """
     },
@@ -14,7 +14,6 @@ st.set_page_config(
 menu, content = st.columns([0.2, 0.8])
 
 with menu:
-    st.subheader("Características:")
     st.page_link("app.py", label="Chante", icon="🏠")
     st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
     st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
@@ -23,7 +22,7 @@ with menu:
 
 with content:
     st.title("Comunidad Elotl :corn:")
-
+    st.subheader(":link: https://elotl-demos.streamlit.app/")
     st.subheader("¿Quienes somos?")
     st.markdown("""
     Somos una comunidad de entusiastas interesados por el desarrollo e investigación de tecnologías del lenguaje aplicadas a las lenguas originarias de México. Nuestras herramientas y recursos digitales son libres y gratuitos.
@@ -59,7 +58,7 @@ with content:
         """)
         st.image("img/github_elotl.png")
     with col3:
-        st.markdown("#### Materiales didacticos")
+        st.markdown("#### Materiales didácticos")
         st.markdown(
             "[Todas las infografías](https://elotl.mx/proyectos/materiales-didacticos/infografias-nahuatl/)"
         )
@@ -71,5 +70,6 @@ with content:
         - [Twitter](https://x.com/elotlmx/)
         - [Facebook](https://www.facebook.com/comunidadelotl)
         - [Blog](https://elotl.mx/blog/)
-        - [Mail](contacto@elotl.mx)
+        - [Mail](mailto:contacto@elotl.mx): `contacto@elotl.mx`
     """)
+    st.caption(f"Hecho con :heart: por [Comunidad Elotl](https://elotl.mx)")
