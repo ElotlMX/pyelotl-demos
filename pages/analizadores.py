@@ -1,3 +1,5 @@
+import re
+from random import choice
 import streamlit as st
 from spacy_streamlit import visualize_ner
 from elotl.nahuatl.morphology import Analyzer as NahuatlAnalyzer
@@ -60,18 +62,40 @@ with content:
         analizer = OtomiAnalyzer()
         default_text = ""
     elif lang == "Nahuatl":
-        # default_text = "otechinmacaya xocomeh"
-        default_text = "Se youal keman takistok uan amo metstona, itech milaj, uelis se kinitas miyakej sitalimej itech iluikak"
-        lang_code = st.radio(
-            "Selecciona una variante",
-            NAHUATL_LANGS,
-            captions=[
-                "Nahúatl de Zacatlán-Ahuacatlán-Tepetzintla",
-                "Nahúatl Clásico",
-                "Nahúatl de la Sierra Nororiental de Puebla",
+        example_texts = {
+            "azz": [
+                "keni mochiuaj in motakualtsin",
+                "Se youal keman takistok uan amo metstona, itech milaj, uelis se kinitas miyakej sitalimej itech iluikak",
             ],
-            index=2,
-        )
+            "nhi": [
+                "otechinmacaya xocomeh",
+                "neh niquihtoz ce historia cuando onicatca niconetl",
+                "onicchihuazquia mas amo onechilhuihqueh",
+            ],
+            "nci": ["niquitta moxochiuh", "nican noconetzin"],
+        }
+        col1, col2 = st.columns([0.3, 0.7])
+        with col1:
+            lang_code = st.radio(
+                "Selecciona una variante",
+                NAHUATL_LANGS,
+                captions=[
+                    "Nahúatl de Zacatlán-Ahuacatlán-Tepetzintla",
+                    "Nahúatl Clásico",
+                    "Nahúatl de la Sierra Nororiental de Puebla",
+                ],
+                index=2,
+            )
+        with col2:
+            examples_str = ""
+            for example in example_texts[lang_code]:
+                examples_str += f"\n- *{example}*"
+            st.markdown(f"""
+            #### Ejemplos:
+
+            {examples_str}
+            """)
+        default_text = example_texts[lang_code][1]
         analizer = NahuatlAnalyzer(lang_code=lang_code)
     else:
         analizer = HuaveAnalyzer()
@@ -80,11 +104,12 @@ with content:
     text = st.text_input("Texto a analizar", value=default_text)
 
     if text:
-        tokens = analizer.analyse(text)
-        tagged = get_tagged_words(text, tokens)
+        clean_text = re.sub(r"[^\w\s]", "", text).lower()
+        tokens = analizer.analyse(clean_text)
+        tagged = get_tagged_words(clean_text, tokens)
         visualize_ner(
             doc=tagged,
-            labels=[token.pos for token in tokens if token.pos is not None],
+            labels=[token.pos for token in tokens if token.pos is not None] + ["X"],
             colors=COLORS,
             title="Etiquetas POS",
             show_table=False,
