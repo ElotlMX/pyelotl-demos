@@ -25,7 +25,7 @@ with content:
         norma = st.selectbox("Elige una norma", LANGS[lang])
 
     if lang == "Otomi":
-        default_text = "ebu̱ ba eje man'aki ba te̱nga ra t'o̱jo̱ ra tjuju ra tsitlaltépets. tlatsopan, nubia ba o̱t'ra b'u̱i ja ra ndo̱m'ijmu."
+        default_text = "ebu̱ ba eje man'aki ba te̱nga ra t'o̱jo̱ ra tjuju ra citlaltépetl."
         normalizador = OtomiNormalizer(norma)
     else:
         default_text = "au in ye yujki in on tlenamakak niman ye ik teixpan on motlalia se tlakatl itech mokaua."

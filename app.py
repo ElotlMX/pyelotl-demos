@@ -43,7 +43,7 @@ with content:
         #### Corpus paralelos
 
         - [Tsunkua](https://tsunkua.elotl.mx/)
-        - [Axolotl]()
+        - [Axolotl](https://axolotl-corpus.mx/search)
         - [Kolo](https://kolo.elotl.mx/)
         """)
         st.image("img/axolotl.png")
