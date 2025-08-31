@@ -21,15 +21,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ```bash
 # Crear entorno virtual e instalar dependencias
-uv venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-uv pip install -r pyproject.toml
+uv sync
 ```
 
-## Uso
+## Correr la app
 
 ```bash
-streamlit run app.py
+uv run -- streamlit run app.py
 ```
 
 ## Documentación útil
