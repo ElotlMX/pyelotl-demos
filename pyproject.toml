@@ -9,5 +9,5 @@ dependencies = [
     "pandas>=2.2.3",
     "spacy>=3.8.4",
     "spacy-streamlit>=1.0.6",
-    "streamlit>=1.43.1",
+    "streamlit>=1.49.0",
 ]

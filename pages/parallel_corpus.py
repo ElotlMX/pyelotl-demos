@@ -2,6 +2,17 @@ import streamlit as st
 import elotl.corpus
 import pandas as pd
 
+st.set_page_config(
+    page_title="Elotl MX",
+    page_icon="🌽",
+    menu_items={
+        "About": """
+        ### Comunidad de Elotl :corn:
+        https://elotl.mx
+        """
+    },
+    layout="wide",
+)
 menu, content = st.columns([0.2, 0.8])
 corpus = ""
 
@@ -56,6 +67,7 @@ with menu:
     st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
     st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
     st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
+    st.page_link("pages/about.py", label="Acerca de nosotræs", icon="🌽")
 
     st.subheader(f"Estadísticas de {corpus.title()}")
     st.metric("Líneas 📊", len(df))

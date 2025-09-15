@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Elotl MX",
-    page_icon="🌍",
+    page_icon="🌽",
     menu_items={
         "About": """
         ### Comunidad de Elotl :corn:
@@ -18,58 +18,30 @@ with menu:
     st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
     st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
     st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
+    st.page_link("pages/about.py", label="Acerca de nosotræs", icon="🌽")
 
 
 with content:
-    st.title("Comunidad Elotl :corn:")
-    st.subheader(":link: https://elotl-demos.streamlit.app/")
-    st.subheader("¿Quienes somos?")
+    st.title("Herramientas Interactivas para Lenguas Originarias: `py-elotl`")
+    st.subheader("Bienvenida al demo de elotl 🤗")
+    st.markdown(
+        "Este sitio es una demostración de las capacidades y características principales del paquete [`py-elotl`](https://pypi.org/project/elotl/). Nuestro objetivo es desarrollar tecnologías del lenguaje accesibles para las lenguas originarias de México."
+    )
+
     st.markdown("""
-    Somos una comunidad de entusiastas interesados por el desarrollo e investigación de tecnologías del lenguaje aplicadas a las lenguas originarias de México. Nuestras herramientas y recursos digitales son libres y gratuitos.
+    ### Características
 
-    Actualmente nuestro equipo está formado por voluntarios y becarios con diversos perfiles:
+    #### Analizador morfológico
 
-    - Licenciatura en literatura hispánica/lingüística
-    - Doctorado en lingüística computacional
-    - Doctorado en lingüística
-    - Licenciatura en Ciencias de la Computación
-    - Licenciatura en Matemáticas
-    - Ingeniería en Computación
+    Descompone palabras complejas en sus partes más pequeñas (raíz, prefijos, sufijos) para revelar su estructura gramatical interna. Ideal para entender la formación de palabras.
+
+    #### Normalizador ortográfico
+
+    Estandariza textos con variaciones de escritura a cierta ortografía.
+
+    #### Corpus paralelos
+
+    Explora, búsca palabras y frases en colecciones de textos bilingües, mostrando ejemplos de uso en contextos con su traducción.
+
     """)
-    st.subheader("Proyectos")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("""
-        #### Corpus paralelos
-
-        - [Tsunkua](https://tsunkua.elotl.mx/)
-        - [Axolotl](https://axolotl-corpus.mx/search)
-        - [Kolo](https://kolo.elotl.mx/)
-        """)
-        st.image("img/axolotl.png")
-    with col2:
-        st.markdown("""
-        #### Desarrollo y código 🤓
-
-        - [py-elotl 🐍](https://github.com/ElotlMX/py-elotl)
-        - [Esquite](https://github.com/ElotlMX/Esquite)
-        - [API 👩🏼‍💻](https://api.elotl.mx/v1/search/)
-        - [Repositorio público 🏛️](https://github.com/ElotlMX/)
-        """)
-        st.image("img/github_elotl.png")
-    with col3:
-        st.markdown("#### Materiales didácticos")
-        st.markdown(
-            "[Todas las infografías](https://elotl.mx/proyectos/materiales-didacticos/infografias-nahuatl/)"
-        )
-        st.image("img/animales_nahuatl.png")
-
-    st.subheader("Ligas de interés")
-    st.markdown("""
-        - [Página de la comunidad](https://elotl.mx)
-        - [Twitter](https://x.com/elotlmx/)
-        - [Facebook](https://www.facebook.com/comunidadelotl)
-        - [Blog](https://elotl.mx/blog/)
-        - [Mail](mailto:contacto@elotl.mx): `contacto@elotl.mx`
-    """)
-    st.caption(f"Hecho con :heart: por [Comunidad Elotl](https://elotl.mx)")
+    st.caption("Hecho con :heart: por [Comunidad Elotl](https://elotl.mx)")

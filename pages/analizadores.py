@@ -1,11 +1,22 @@
 import re
-from random import choice
 import streamlit as st
 from spacy_streamlit import visualize_ner
 from elotl.nahuatl.morphology import Analyzer as NahuatlAnalyzer
 from elotl.otomi.morphology import Analyzer as OtomiAnalyzer
 from elotl.huave.morphology import Analyzer as HuaveAnalyzer
 from elotl.nahuatl.config import SUPPORTED_LANG_CODES as NAHUATL_LANGS
+
+st.set_page_config(
+    page_title="Elotl MX",
+    page_icon="🌽",
+    menu_items={
+        "About": """
+        ### Comunidad de Elotl :corn:
+        https://elotl.mx
+        """
+    },
+    layout="wide",
+)
 
 COLORS = {
     "ADJ": "#c9e2ef",
@@ -50,6 +61,7 @@ with menu:
     st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
     st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
     st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
+    st.page_link("pages/about.py", label="Acerca de nosotræs", icon="🌽")
 
 with content:
     st.title("Analizadores morfológicos (Beta)")

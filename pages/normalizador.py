@@ -1,7 +1,20 @@
+import csv
 import streamlit as st
 
 from elotl.nahuatl.orthography import Normalizer as NahuatlNormalizer
 from elotl.otomi.orthography import Normalizer as OtomiNormalizer
+
+st.set_page_config(
+    page_title="Elotl MX",
+    page_icon="🌽",
+    menu_items={
+        "About": """
+        ### Comunidad de Elotl :corn:
+        https://elotl.mx
+        """
+    },
+    layout="wide",
+)
 
 NAHUATL_NORMS = ["sep", "inali", "ack", "ilv"]
 OTOMI_NORMS = ["inali", "rfe", "ots", "otq"]
@@ -15,6 +28,7 @@ with menu:
     st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
     st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
     st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
+    st.page_link("pages/about.py", label="Acerca de nosotræs", icon="🌽")
 
 with content:
     st.title("Normalizadores")
@@ -31,9 +45,11 @@ with content:
         default_text = "au in ye yujki in on tlenamakak niman ye ik teixpan on motlalia se tlakatl itech mokaua."
         normalizador = NahuatlNormalizer(norma)
 
-    result = st.text_area("Texto a normalizar", value=default_text)
+    text = st.text_area("Texto a normalizar", value=default_text)
 
     st.subheader("Oración normalizada")
-    st.write(normalizador.normalize(result))
+    normalized_text = normalizador.normalize(text)
+    st.write(normalized_text)
     st.subheader("Representación fonética")
-    st.write(normalizador.to_phones(result))
+    phonetic_text = normalizador.to_phones(text)
+    st.write(phonetic_text)
