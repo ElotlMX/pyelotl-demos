@@ -1,10 +1,14 @@
 import re
+from pathlib import Path
+
 import streamlit as st
-from spacy_streamlit import visualize_ner
-from elotl.nahuatl.morphology import Analyzer as NahuatlAnalyzer
-from elotl.otomi.morphology import Analyzer as OtomiAnalyzer
 from elotl.huave.morphology import Analyzer as HuaveAnalyzer
 from elotl.nahuatl.config import SUPPORTED_LANG_CODES as NAHUATL_LANGS
+from elotl.nahuatl.morphology import Analyzer as NahuatlAnalyzer
+from elotl.otomi.morphology import Analyzer as OtomiAnalyzer
+from spacy_streamlit import visualize_ner
+
+from utils import get_tagged_sent, write_feedback
 
 st.set_page_config(
     page_title="Elotl MX",
@@ -37,6 +41,15 @@ COLORS = {
     "X": "#dedede",
 }
 
+ANALIZER_FEEDBACK_FILE = "analizer_feedback.csv"
+ANALIZER_HEADER = [
+    "lang",
+    "lang_code",
+    "original_text",
+    "tagged_sent",
+    "corrected_analysis",
+]
+
 
 def format_feats(token):
     return "|".join(
@@ -49,7 +62,7 @@ def get_tagged_words(text: str, tokens) -> list[dict]:
     for token in tokens:
         idx1 = text.index(token.wordform)
         idx2 = idx1 + len(token.wordform)
-        pos = token.pos if token.pos is not None else "X"
+        pos = token.pos if token.pos is not None else ""
         entities.append({"start": idx1, "end": idx2, "label": pos})
     return [{"text": text, "ents": entities}]
 
@@ -126,6 +139,64 @@ with content:
             show_table=False,
             manual=True,
         )
+
+        sentiment_mapping = [":material/thumb_down:", ":material/thumb_up:"]
+        st.caption("¿Este análisis es correcto?")
+        selected = st.feedback("thumbs", key="analizer_feedback")
+        if selected is not None:
+            if sentiment_mapping[selected] == ":material/thumb_down:":
+                st.error(
+                    "Lamentamos que el resultado no sea adecuado",
+                    icon=":material/mood_bad:",
+                )
+                manual_analisys = st.text_area(
+                    "Análisis correcto",
+                    placeholder="Ayudanos a mejorar agregando el análisis correcto",
+                    key="corrected_analysis",
+                    disabled=st.session_state.get("analizer_feedback_sent", False),
+                )
+                if "analizer_feedback_sent" not in st.session_state:
+                    st.session_state.analizer_feedback_sent = False
+                send_button = st.button(
+                    "Enviar",
+                    icon=":material/send:",
+                    disabled=st.session_state.analizer_feedback_sent,
+                )
+                if (
+                    send_button
+                    and manual_analisys
+                    and not st.session_state.analizer_feedback_sent
+                ):
+                    # Save feedback
+                    file_path = Path(ANALIZER_FEEDBACK_FILE)
+                    tagged_sent = get_tagged_sent(tokens)
+                    # TODO: Add features from analisis
+                    if lang == "Nahuatl":
+                        data = [
+                            lang,
+                            lang_code,
+                            f'"{text}"',
+                            f'"{tagged_sent}"',
+                            f'"{manual_analisys.strip()}"',
+                        ]
+                    else:
+                        data = [
+                            lang,
+                            "",
+                            f'"{text}"',
+                            f'"{tagged_sent}"',
+                            f'"{manual_analisys.strip()}"',
+                        ]
+                    write_feedback(file_path, data, ANALIZER_HEADER)
+                    st.session_state.analizer_feedback_sent = True
+                    st.success("Gracias por tu contribución :material/star_shine:")
+                elif st.session_state.analizer_feedback_sent:
+                    st.info(
+                        "Ya enviaste tu contribución en esta sesión :material/info:"
+                    )
+            else:
+                # TODO: What to do with positive feedback?
+                st.success("Gracias por tu valoración :material/star_shine:")
         st.markdown("## Características por palabra")
         for i, token in enumerate(tokens, start=1):
             st.markdown(f"#### {token.wordform}")
