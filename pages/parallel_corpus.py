@@ -1,25 +1,16 @@
-import streamlit as st
 import elotl.corpus
 import pandas as pd
+import streamlit as st
 
-st.set_page_config(
-    page_title="Elotl MX",
-    page_icon="🌽",
-    menu_items={
-        "About": """
-        ### Comunidad de Elotl :corn:
-        https://elotl.mx
-        """
-    },
-    layout="wide",
-)
-menu, content = st.columns([0.2, 0.8])
-corpus = ""
+from utils import app_layout, page_configs
+
+page_configs()
+menu, content = app_layout()
 
 
 with content:
     st.title("Corpus paralelos")
-
+    corpus = ""
     corpus = st.selectbox(
         "Elige una corpus:", [lang[0] for lang in elotl.corpus.list_of_corpus()]
     )
@@ -63,12 +54,6 @@ with content:
         )
 
 with menu:
-    st.page_link("app.py", label="Chante", icon="🏠")
-    st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
-    st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
-    st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
-    st.page_link("pages/about.py", label="Acerca de nosotræs", icon="🌽")
-
     st.subheader(f"Estadísticas de {corpus.title()}")
     st.metric("Líneas 📊", len(df))
     st.metric("Documentos :book:", len(df["doc"].unique()))

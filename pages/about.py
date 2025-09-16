@@ -1,25 +1,9 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Elotl MX",
-    page_icon="🌽",
-    menu_items={
-        "About": """
-        ### Comunidad de Elotl :corn:
-        https://elotl.mx
-        """
-    },
-    layout="wide",
-)
-menu, content = st.columns([0.2, 0.8])
+from utils import app_layout, page_configs
 
-with menu:
-    st.page_link("app.py", label="Chante", icon="🏠")
-    st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
-    st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
-    st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
-    st.page_link("pages/about.py", label="Acerca de nosotræs", icon="🌽")
-
+page_configs()
+_, content = app_layout()
 
 with content:
     st.header("Comunidad Elotl :corn:")
@@ -73,4 +57,4 @@ with content:
         - [Blog](https://elotl.mx/blog/)
         - [Mail](mailto:contacto@elotl.mx): `contacto@elotl.mx`
     """)
-    st.caption(f"Hecho con :heart: por [Comunidad Elotl](https://elotl.mx)")
+    st.caption("Hecho con :heart: por [Comunidad Elotl](https://elotl.mx)")

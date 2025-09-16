@@ -8,18 +8,13 @@ from elotl.nahuatl.morphology import Analyzer as NahuatlAnalyzer
 from elotl.otomi.morphology import Analyzer as OtomiAnalyzer
 from spacy_streamlit import visualize_ner
 
-from utils import get_tagged_sent, write_feedback
-
-st.set_page_config(
-    page_title="Elotl MX",
-    page_icon="🌽",
-    menu_items={
-        "About": """
-        ### Comunidad de Elotl :corn:
-        https://elotl.mx
-        """
-    },
-    layout="wide",
+from utils import (
+    app_layout,
+    format_feats,
+    get_tagged_sent,
+    get_tagged_words,
+    page_configs,
+    write_feedback,
 )
 
 COLORS = {
@@ -49,32 +44,8 @@ ANALIZER_HEADER = [
     "tagged_sent",
     "corrected_analysis",
 ]
-
-
-def format_feats(token):
-    return "|".join(
-        [f"{k}={v}" for k, v in sorted(token.analyses[0][0][0]["feats"].items())]
-    )
-
-
-def get_tagged_words(text: str, tokens) -> list[dict]:
-    entities = []
-    for token in tokens:
-        idx1 = text.index(token.wordform)
-        idx2 = idx1 + len(token.wordform)
-        pos = token.pos if token.pos is not None else ""
-        entities.append({"start": idx1, "end": idx2, "label": pos})
-    return [{"text": text, "ents": entities}]
-
-
-menu, content = st.columns([0.2, 0.8])
-
-with menu:
-    st.page_link("app.py", label="Chante", icon="🏠")
-    st.page_link("pages/normalizador.py", label="Normalizador", icon="📑")
-    st.page_link("pages/analizadores.py", label="Analizador Morfológico", icon="✍🏼")
-    st.page_link("pages/parallel_corpus.py", label="Corpus Paralelos", icon="📚")
-    st.page_link("pages/about.py", label="Acerca de nosotræs", icon="🌽")
+page_configs()
+_, content = app_layout()
 
 with content:
     st.title("Analizadores morfológicos (Beta)")
